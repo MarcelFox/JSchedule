@@ -1,0 +1,31 @@
+version: '3'
+
+services:
+  backend:
+    image: node:12-alpine
+    build: ./backend
+    volumes: 
+      - ./backend:/usr/src/app
+    working_dir: /usr/src/app
+    command: nodemon server.js
+    ports:
+      - 3000:3000
+
+  # frontend:
+  #   image: node:12-alpine
+  #   build: ./frontend
+  #   volumes:
+  #     - ./frontend:/usr/src/app
+  #     working_dir: /usr/src/app
+  #   ports:
+  #     - 8080:80
+
+  postgres:
+    image: postgres:latest
+    environment:
+      POSTGRES_DB: ${PG_DB}
+      POSTGRES_USER: ${PG_USER}
+      POSTGRES_PASSWORD: ${PG_PASS} 
+    ports:
+      - 5432:5432
+  
