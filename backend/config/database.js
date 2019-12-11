@@ -1,5 +1,5 @@
 const dotenv = require('dotenv');
-dotenv.config({});
+dotenv.config({path: '/usr/src/app/.env'});
 
 module.exports = {
   dialect: 'postgres',

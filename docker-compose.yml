@@ -3,13 +3,19 @@ version: '3'
 services:
   backend:
     image: node:12-alpine
-    build: ./backend
+    depends_on: 
+      - db
     volumes: 
       - ./backend:/usr/src/app
     working_dir: /usr/src/app
-    command: nodemon server.js
+    command: npm install
+    command: yarn sequelize db:migrate
+    command: node server.js
+    
     ports:
       - 3000:3000
+    links:
+      - db
 
   # frontend:
   #   image: node:12-alpine
@@ -20,12 +26,11 @@ services:
   #   ports:
   #     - 8080:80
 
-  postgres:
+  db:
     image: postgres:latest
-    environment:
-      POSTGRES_DB: ${PG_DB}
-      POSTGRES_USER: ${PG_USER}
-      POSTGRES_PASSWORD: ${PG_PASS} 
+    # environment:
+    #   POSTGRES_DB: ${PG_DB}
+    #   POSTGRES_USER: ${PG_USER}
+    #   POSTGRES_PASSWORD: ${PG_PASS} 
     ports:
       - 5432:5432
-  
