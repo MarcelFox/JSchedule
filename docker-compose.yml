@@ -8,14 +8,12 @@ services:
     volumes: 
       - ./backend:/usr/src/app
     working_dir: /usr/src/app
+    env_file: .env
     command: npm install
-    command: yarn sequelize db:migrate
-    command: node server.js
+    command: npm run dev
     
     ports:
       - 3000:3000
-    links:
-      - db
 
   # frontend:
   #   image: node:12-alpine
@@ -28,9 +26,6 @@ services:
 
   db:
     image: postgres:latest
-    # environment:
-    #   POSTGRES_DB: ${PG_DB}
-    #   POSTGRES_USER: ${PG_USER}
-    #   POSTGRES_PASSWORD: ${PG_PASS} 
+    env_file: .env
     ports:
       - 5432:5432

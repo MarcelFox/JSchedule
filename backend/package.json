@@ -4,6 +4,10 @@
   "main": "app.js",
   "author": "Marcel Fox",
   "license": "MIT",
+  "scripts": {
+    "dev": "npx sequelize-cli db:migrate && nodemon server.js",
+    "start": "node server.js"
+  },
   "devDependencies": {
     "nodemon": "^2.0.1"
   },
