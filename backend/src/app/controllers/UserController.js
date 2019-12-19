@@ -12,7 +12,7 @@ class UserController {
         return json;
       });
 
-    user.name = 'Dumb User';
+    user.name = 'Dummy User';
     user.password = faker.internet.password();
     user.phone = faker.phone.phoneNumber('9####-####');
 
