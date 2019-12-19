@@ -19,13 +19,13 @@ export default () => (
               </Link>
             </li>
             <li className="nav-item">
-              <Link to="#" className="nav-link" onClick={(e) => context.logout()}>
-                Logout
+              <Link className="nav-link" to="/dashboard">
+                Dashboard
               </Link>
             </li>
             <li className="nav-item">
-              <Link className="nav-link" to="/dashboard">
-                Dashboard
+              <Link to="#" className="nav-link" onClick={(e) => context.logout()}>
+                Logout
               </Link>
             </li>
           </ul>
@@ -42,14 +42,14 @@ export default () => (
               </Link>
             </li>
             <li className="nav-item">
-              <Link className="nav-link" to="/login">
-                login
-              </Link>
-            </li>
-            <li className="nav-item">
               <p className="nav-link disabled">
                 Dashboard
               </p>
+            </li>
+            <li className="nav-item">
+              <Link className="nav-link" to="/login">
+                Login
+              </Link>
             </li>
           </ul>
         )}
