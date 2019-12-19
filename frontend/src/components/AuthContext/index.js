@@ -48,7 +48,7 @@ class AuthProvider extends React.Component {
       }),
     }).then(response => {
       response.statusText === 'Unauthorized'
-        ? this.setState({ isAuth: false })
+        ? alert('Invalid Credentials')
         : this.setState({ isAuth: true });
 
       return response.statusText;
