@@ -1,10 +1,10 @@
 const { User } = require('../models');
-const faker = require('faker');
+const faker = require('faker/locale/pt_BR');
 const fetch = require('node-fetch');
 
 class UserController {
   async dumbUser(req, res) {
-    let action = req.query.action;
+    let action = req.params.action;
 
     let user = await fetch('https://jsonplaceholder.typicode.com/users/1')
       .then(response => response.json())
@@ -12,50 +12,70 @@ class UserController {
         return json;
       });
 
+    user.name = 'Dumb User';
     user.password = faker.internet.password();
+    user.phone = faker.phone.phoneNumber('9####-####');
 
-    User.findAll({
-      where: { name: 'Dumb User' },
-      plain: true,
-    })
-      .then(found => {
-        if (!found) {
-          if (action == 'create') {
-            User.create({
-              name: 'Dumb User',
-              email: user.email,
-              password_hash: user.password,
-            });
-            return res
-              .status(200)
-              .json({ message: 'Dumb User successfully created!' });
-          } else {
-            return res.status(200).json({ message: 'Dumb User must exist!' });
-          }
-        }
+    let found = await queryUser(user);
 
-        if (found) {
-          if (action == 'create') {
-            return res
-              .status(200)
-              .json({ message: 'Dumb User Already exist!' });
-          }
+    // User found:
+    if (found) {
+      if (action == 'delete') {
+        await delUser(user);
+      } else if (action && action != 'delete') {
+        return res
+          .status(200)
+          .json({ message: 'Dumb User found, available action is `delete`' });
+      }
 
-          if (action == 'delete') {
-            User.destroy({ where: { name: 'Dumb User' } });
-            return res.status(200).json({ message: 'Dumb User deleted!' });
-          }
+      if (!action) {
+        return res.status(200).json([found]);
+      }
+    }
 
-          if (action == 'query') {
-            return res.status(200).json({ found });
-          }
-        }
-        return res.status(200).json({ message: 'I need some action!' });
-      })
-      .catch(err => {
-        console.log('[Query Error]:', err);
-        return res.status(500).json({ message: err });
+    // User not found:
+    if (!found) {
+      if (action == 'create') {
+        await createUser(user);
+      } 
+      // else if (action && action != 'create') {
+      //   return res.status(404).json({
+      //     message: 'Dumb User not found, available action is `create`',
+      //   });
+      // }
+      if (!action) {
+        return res.status(404).json({ message: 'Dumb User not found' });
+      }
+    }
+
+
+    // Functions:
+    async function queryUser(user) {
+      const { name } = user;
+
+      const found = await User.findAll({
+        where: { name: name },
+        plain: true,
+      }).then(found => {
+        return found;
       });
+
+      return found;
+    }
+
+    async function createUser(user) {
+      User.create(user).catch(err => {
+        console.log('ERRO:', err);
+      });
+      return res.status(200).json({ message: 'User successfully created' });
+    }
+
+    async function delUser(user) {
+      const { name } = user;
+
+      User.destroy({ where: { name: name } });
+      return res.status(200).json({ message: 'Dumb User deleted!' });
+    }
   }
 }
 

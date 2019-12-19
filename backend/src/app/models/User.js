@@ -1,13 +1,14 @@
 const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
+const userController = require
 
 module.exports = (sequelize, DataTypes) => {
   const User = sequelize.define(
     "User",
     {
       name: DataTypes.STRING,
-      username: DataTypes.STRING,
       email: DataTypes.STRING,
+      phone: DataTypes.STRING,
       password: DataTypes.VIRTUAL,
       password_hash: DataTypes.STRING
     },
