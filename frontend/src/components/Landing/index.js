@@ -70,8 +70,8 @@ export default class Landing extends React.Component {
                       passing through our backend's api! Use these on login <i>context</i>!
                     </p>
                     <p>
-                  Ok you're not logged in! You cannot access the{' '}
-                  <Link to="/dashboard">Dashboard</Link> if your not logged.
+                  Since you're not logged in, you'll not be able to access the{' '}
+                  <Link to="/dashboard">Dashboard</Link>.
                 </p>
                   </div>
                 );
