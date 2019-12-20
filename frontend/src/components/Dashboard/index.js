@@ -17,39 +17,49 @@ import TextField from '@material-ui/core/TextField';
 import './styles.css';
 
 export default function MaterialUIPickers() {
+  const [selectedDate, setSelectedDate] = React.useState(new moment().format());
+  const [disableBtn, setDisableBtn] = React.useState(false);
   const [period, setPeriod] = React.useState('');
+  const [name, setName] = React.useState('');
+
+  let weekday = moment().format('dddd');
+  let minDate = '';
+
+  weekday === 'Sexta-feira'
+    ? moment().format('HHmm') > 1800
+      ? (minDate = moment().add(4, 'days'))
+      : (minDate = moment().add(1, 'days'))
+    : moment().format('HHmm') > 1930
+    ? (minDate = moment().add(2, 'days'))
+    : (minDate = moment().add(1, 'days'));
+
+  if (weekday === 'Sábado') {
+    minDate = moment().add(2, 'days');
+  }
+
+  // if (weekday === 'Domingo') {
+  //   minDate = moment().add(2, 'days')
+  // }
 
   const handleRadioChange = event => {
     setPeriod(event.target.value);
   };
 
-  const [selectedDate, setSelectedDate] = React.useState(new moment().format());
-  const [name, setName] = React.useState('');
-
-  const [weekday, setWeekday] = React.useState(moment().format('dddd'));
-  let minDate = '';
-
-  weekday === 'Sexta-feira'
-    ? moment().format('HHmm') > 1800
-      ? (minDate = moment().add(3, 'days'))
-      : (minDate = moment().add(1, 'days'))
-    : moment().format('HHmm') > 1800
-    ? (minDate = moment().add(2, 'days'))
-    : (minDate = moment().add(1, 'days'));
+  const handleInputChange = event => {
+    setName(event.target.value);
+  };
 
   const handleDateChange = date => {
     setSelectedDate(date);
   };
 
-  const handleInputChange = event => {
-    setName(event.target.value);
-    console.log(event.target.value);
-  };
+  const handleSave = async event => {
 
-  function handleSave() {
+    event.persist()
+
     let pickDate = moment(selectedDate).format('YYYY-MM-DD');
-
-    fetch('http://localhost:3000/schedule', {
+    
+    let statusSave = await fetch('http://localhost:3000/schedule', {
       method: 'post',
       headers: {
         Accept: 'application/json',
@@ -60,12 +70,25 @@ export default function MaterialUIPickers() {
         date: pickDate,
         period: period,
       }),
-    })
-      .then(response => response.json())
-      .then(json => {
-        console.log(json);
-      });
-  }
+    }).then(response => {
+      if (response.status === 200) {
+        alert('Schedule saved!');
+      } else {
+        alert('Schedules are closed for this date, choose another date.');
+      }
+      return response.status;
+    });
+
+    if (statusSave === 200) {
+      setDisableBtn(!event.target.value);
+      setName('');
+      setPeriod('');
+    }
+
+    
+
+    
+  };
 
   return (
     <div className="container">
@@ -108,6 +131,7 @@ export default function MaterialUIPickers() {
 
             <h5>Name:</h5>
             <TextField
+              value={name}
               onChange={handleInputChange}
               id="outlined-basic"
               label="Patient's Name"
@@ -148,6 +172,7 @@ export default function MaterialUIPickers() {
             <br />
             <Button
               id="date-button"
+              disabled={disableBtn}
               variant="contained"
               color="primary"
               onClick={handleSave}

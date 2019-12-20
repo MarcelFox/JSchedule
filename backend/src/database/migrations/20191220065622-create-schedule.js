@@ -15,7 +15,6 @@ module.exports = {
       },
       date: {
         type: Sequelize.DATE,
-        unique: true,
         allowNull: false,
       },
       period: {
