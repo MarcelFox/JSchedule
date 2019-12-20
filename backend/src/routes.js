@@ -12,7 +12,7 @@ routes.post('/checkCredentials', SessionController.checkCredentials);
 routes.get('/dumbuser', UserController.dumbUser);
 routes.get('/dumbuser/:action', UserController.dumbUser);
 
-routes.get('/schedule', ScheduleController.test);
+routes.post('/schedule', ScheduleController.save);
 
 // From this point it uses authMiddleware routes:
 routes.use(authMiddleware);

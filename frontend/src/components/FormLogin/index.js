@@ -66,7 +66,7 @@ export default class FormLogin extends React.Component {
                   You must provide the number as 'xxxxx-xxxx'.
                 </small>
               </div>
-              <button class="btn btn-primary"
+              <button className="btn btn-primary"
                 onClick={e =>
                   context.checkAuth(e, this.state.email, this.state.phone)
                 }

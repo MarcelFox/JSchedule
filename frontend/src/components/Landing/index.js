@@ -19,8 +19,7 @@ export default class Landing extends React.Component {
 
 
   async componentDidMount() {
-    await fetch('http://localhost:3000/dumbuser/create')
-      .then(console.log('OOKOK'));
+    await fetch('http://localhost:3000/dumbuser/create');
 
     fetch('http://localhost:3000/dumbuser')
       .then(response => response.json())

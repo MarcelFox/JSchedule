@@ -1,5 +1,9 @@
 #date-picker {
-  margin-top: 50px;
+  margin-top: 0px;
+}
+
+#date-picker h5 {
+  margin-top: 30px;
 }
 
 #date-button {
