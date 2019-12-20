@@ -9,7 +9,6 @@ services:
       - ./backend:/usr/src/app
     working_dir: /usr/src/app
     # env_file: .env
-    command: npm install
     command: npm run dev
     
     ports:
@@ -23,7 +22,6 @@ services:
     volumes:
       - ./frontend:/usr/src/app
     working_dir: /usr/src/app
-    command: yarn install
     command: yarn start
     ports:
       - 8080:8080
