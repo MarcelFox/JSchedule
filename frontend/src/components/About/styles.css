@@ -1,0 +1,14 @@
+#date-picker {
+  margin-top: 50px;
+}
+
+#date-button {
+  margin-top: 20px;
+  float: right;
+  margin-right: 30px;
+  width: 110px;
+}
+
+#main-text-about {
+  text-align: justify;
+}
