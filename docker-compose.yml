@@ -24,10 +24,10 @@ services:
     working_dir: /usr/src/app
     command: yarn start
     ports:
-      - 8080:8080
+      - 8080:80
 
   db:
     image: postgres:latest
     env_file: ./backend/.env
     ports:
-      - 5432:5432
+      - 6000:5432
